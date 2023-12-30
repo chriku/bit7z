@@ -94,7 +94,7 @@ auto FileExtractCallback::getOutStream( uint32_t index, ISequentialOutStream** o
 #if defined( BIT7Z_USE_NATIVE_STRING )
             const auto& filePathString = filePath.native();
 #elif !defined( BIT7Z_USE_SYSTEM_CODEPAGE )
-            const auto filePathString = filePath.u8string();
+            const auto filePathString = filePath.string();
 #else
             const auto& nativePath = filePath.native();
             const auto filePathString = narrow( nativePath.c_str(), nativePath.size() );

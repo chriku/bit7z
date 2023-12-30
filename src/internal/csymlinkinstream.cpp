@@ -15,23 +15,22 @@
 
 namespace bit7z {
 
-auto read_symlink_as_string( const fs::path& symlinkPath ) noexcept -> std::string {
+  auto read_symlink_as_string(const fs::path& symlinkPath) noexcept -> std::string {
     std::error_code error;
-    return fs::read_symlink( symlinkPath, error ).u8string();
-}
+    return fs::read_symlink(symlinkPath, error).string();
+  }
 
-CSymlinkInStream::CSymlinkInStream( const fs::path& symlinkPath )
-    : mStream{ read_symlink_as_string( symlinkPath ) },
-      mSymlinkStream{ bit7z::make_com< CStdInStream >( mStream ) } {}
+  CSymlinkInStream::CSymlinkInStream(const fs::path& symlinkPath)
+      : mStream{read_symlink_as_string(symlinkPath)}, mSymlinkStream{bit7z::make_com<CStdInStream>(mStream)} {}
 
-COM_DECLSPEC_NOTHROW
-STDMETHODIMP CSymlinkInStream::Read( void* data, UInt32 size, UInt32* processedSize ) noexcept {
-    return mSymlinkStream->Read( data, size, processedSize );
-}
+  COM_DECLSPEC_NOTHROW
+  STDMETHODIMP CSymlinkInStream::Read(void* data, UInt32 size, UInt32* processedSize) noexcept {
+    return mSymlinkStream->Read(data, size, processedSize);
+  }
 
-COM_DECLSPEC_NOTHROW
-STDMETHODIMP CSymlinkInStream::Seek( Int64 offset, UInt32 seekOrigin, UInt64* newPosition ) noexcept {
-    return mSymlinkStream->Seek( offset, seekOrigin, newPosition );
-}
+  COM_DECLSPEC_NOTHROW
+  STDMETHODIMP CSymlinkInStream::Seek(Int64 offset, UInt32 seekOrigin, UInt64* newPosition) noexcept {
+    return mSymlinkStream->Seek(offset, seekOrigin, newPosition);
+  }
 
 } // namespace bit7z
